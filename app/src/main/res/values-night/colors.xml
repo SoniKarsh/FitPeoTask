@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dark">@color/brandingTxt</color>
+    <color name="primaryBg">#31456A</color>
+    <color name="brandingTxt">#CBDAED</color>
+
+    <color name="color_bulb_icon">#F1FFAA00</color>
+    <color name="toolbar_bg">@color/white</color>
+</resources>

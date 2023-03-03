@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">FitpeoTask</string>
+    <string name="no_photos_found">No photos found</string>
+    <string name="retry">Retry</string>
+
+    <string name="menu_ui_mode">Dark Mode</string>
+
+    <string name="hash_id">#%s</string>
+</resources>
