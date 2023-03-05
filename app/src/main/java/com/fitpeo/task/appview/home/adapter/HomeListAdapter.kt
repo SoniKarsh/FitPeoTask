@@ -4,36 +4,39 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.fitpeo.task.R
-import com.fitpeo.task.appview.home.HomeListFragmentDirections
 import com.fitpeo.task.databinding.ItemPhotoFitpeoBinding
 import com.fitpeo.task.model.ResFitpeoModel
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import java.lang.Exception
 
-class HomeListAdapter : PagingDataAdapter<ResFitpeoModel, HomeListAdapter.HomeListViewHolder>(PhotosDiffCallback()) {
+class HomeListAdapter(
+    private val clickListener: (View, Int, ResFitpeoModel?) -> Unit
+) : PagingDataAdapter<ResFitpeoModel, HomeListAdapter.HomeListViewHolder>(PhotosDiffCallback()) {
 
     private lateinit var bundle: Bundle
 
+    companion object {
+        // Loading ViewType
+        const val LOADING_ITEM = 0
+
+        // Photo ViewType
+        const val PHOTO_ITEM = 1
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeListViewHolder {
-        val holder = HomeListViewHolder(
+        return HomeListViewHolder(
             ItemPhotoFitpeoBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
-            )
+            ),
+            clickListener
         )
-        holder.binding.root.setOnClickListener { view ->
-            getItem(holder.bindingAdapterPosition)?.let { item ->
-                view.findNavController().navigate(
-                    HomeListFragmentDirections.actionHomeListFragmentToDetailsFragment()
-                        .setDetails(item)
-                )
-            }
-        }
-        return holder
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == itemCount) PHOTO_ITEM else LOADING_ITEM
     }
 
     override fun onBindViewHolder(holder: HomeListViewHolder, position: Int) {
@@ -41,23 +44,29 @@ class HomeListAdapter : PagingDataAdapter<ResFitpeoModel, HomeListAdapter.HomeLi
     }
 
     inner class HomeListViewHolder(
-        val binding: ItemPhotoFitpeoBinding
+        val binding: ItemPhotoFitpeoBinding,
+        private val clickListener: (View, Int, ResFitpeoModel?) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(fitPeoModel: ResFitpeoModel?) {
-            fitPeoModel?.run {
-                binding.name.text = title
-                Picasso.get().load(thumbnailUrl)
-                    .error(R.drawable.ic_placeholder)
-                    .noFade()
-                    .placeholder(R.drawable.ic_placeholder)
-                    .into(binding.image, object: Callback{
-                        override fun onSuccess() {
-                            binding.cpiProgress.visibility = View.GONE
-                        }
-                        override fun onError(e: Exception?) {
-                            binding.cpiProgress.visibility = View.GONE
-                        }
-                    })
+            binding.run {
+                cpiProgress.visibility = View.VISIBLE
+                root.setOnClickListener {
+                    clickListener.invoke(image, bindingAdapterPosition, fitPeoModel)
+                }
+                fitPeoModel?.let { details ->
+                    image.transitionName = details.id.toString()
+                    name.text = details.title
+                    Picasso.get().load(details.thumbnailUrl)
+                        .error(R.drawable.ic_placeholder)
+                        .into(image, object: Callback{
+                            override fun onSuccess() {
+                                cpiProgress.visibility = View.GONE
+                            }
+                            override fun onError(e: Exception?) {
+                                cpiProgress.visibility = View.GONE
+                            }
+                        })
+                }
             }
         }
 

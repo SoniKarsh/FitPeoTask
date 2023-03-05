@@ -8,6 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,15 +22,19 @@ import com.fitpeo.task.appview.home.loader.PhotoLoadStateAdapter
 import com.fitpeo.task.appview.viewmodel.MainSharedViewModel
 import com.fitpeo.task.databinding.FragmentHomeListBinding
 import com.fitpeo.task.utils.AppLogger
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeListFragment: Fragment() {
+class HomeListFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeListBinding
     private val viewModel: MainSharedViewModel by activityViewModel()
     private var adapter: HomeListAdapter? = null
+    private lateinit var gridLayoutManager: GridLayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +51,7 @@ class HomeListFragment: Fragment() {
         setBackArrow()
     }
 
-    private fun setBackArrow(){
+    private fun setBackArrow() {
         (requireActivity() as AppCompatActivity).run {
             supportActionBar?.setDisplayHomeAsUpEnabled(false)
             supportActionBar?.setDisplayShowHomeEnabled(false)
@@ -51,11 +59,30 @@ class HomeListFragment: Fragment() {
     }
 
     private fun initView() {
-        adapter = HomeListAdapter()
+        adapter = HomeListAdapter { image, pos, details ->
+            var extras: FragmentNavigator.Extras? = null
+            val actionNav = HomeListFragmentDirections.actionHomeListFragmentToDetailsFragment()
+                .setDetails(details)
+            details?.run {
+                extras = FragmentNavigatorExtras(
+                    image to id.toString()
+                )
+            }
+            if (extras == null) {
+                findNavController().navigate(
+                    actionNav
+                )
+            } else {
+                findNavController().navigate(
+                    actionNav, extras!!
+                )
+            }
+        }
         binding.rvPhotoList.let {
-            it.layoutManager = GridLayoutManager(
+            gridLayoutManager = GridLayoutManager(
                 requireContext(), 2, GridLayoutManager.VERTICAL, false
             )
+            it.layoutManager = gridLayoutManager
             this@HomeListFragment.run {
                 it.adapter = adapter?.withLoadStateHeaderAndFooter(
                     header = PhotoLoadStateAdapter { adapter?.retry() },
@@ -66,13 +93,27 @@ class HomeListFragment: Fragment() {
 
         loadData()
 
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (adapter?.getItemViewType(position) == HomeListAdapter.LOADING_ITEM) {
+                    1
+                } else {
+                    2
+                }
+            }
+        }
+
         adapter?.addLoadStateListener { loadState ->
             viewModel.updateLoadingState(loadState.source.refresh)
             renderUi(loadState)
         }
 
-        binding.btnRetry.setOnClickListener { adapter?.retry() }
+        clickListeners()
 
+    }
+
+    private fun clickListeners() {
+        binding.btnRetry.setOnClickListener { adapter?.retry() }
     }
 
     private fun renderUi(loadState: CombinedLoadStates) {
@@ -91,8 +132,10 @@ class HomeListFragment: Fragment() {
 
     private fun loadData() {
         lifecycleScope.launch {
-            viewModel.getPhotos().collect { photos ->
-                adapter?.submitData(photos)
+            viewModel.resultPublisher.collectLatest {
+                it?.run {
+                    adapter?.submitData(this)
+                }
             }
         }
     }

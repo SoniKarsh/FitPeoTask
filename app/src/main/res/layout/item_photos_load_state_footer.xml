@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="@dimen/_10dp">
 
     <TextView
-        android:id="@+id/tvMoviesErrorDescription"
+        android:id="@+id/tvPhotosErrorDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -16,21 +16,24 @@
         tools:text="Some Error" />
 
     <ProgressBar
-        android:id="@+id/progressMoviesLoadMore"
+        android:id="@+id/progressPhotosLoadMore"
         style="?android:attr/progressBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:progressTint="@color/dark"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnMoviesRetry"
+        android:id="@+id/btnPhotosRetry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/retry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvMoviesErrorDescription" />
+        app:layout_constraintTop_toBottomOf="@id/tvPhotosErrorDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
