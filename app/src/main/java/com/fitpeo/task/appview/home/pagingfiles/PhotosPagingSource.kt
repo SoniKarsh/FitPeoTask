@@ -35,9 +35,8 @@ class PhotosPagingSource(private val fitPeoPhotosApi: FitPeoPhotosApi): PagingSo
             val response = fitPeoPhotosApi.getPhotos(
                 pageIndex
             )
-            val photos = response
             val nextKey =
-                if (photos.isEmpty()) {
+                if (response.isEmpty()) {
                     null
                 } else {
                     // By default, initial load size = 3 * NETWORK PAGE SIZE
@@ -45,7 +44,7 @@ class PhotosPagingSource(private val fitPeoPhotosApi: FitPeoPhotosApi): PagingSo
                     pageIndex + (params.loadSize / NETWORK_PAGE_SIZE)
                 }
             LoadResult.Page(
-                data = photos,
+                data = response,
                 prevKey = if (pageIndex == STARTING_PAGE_INDEX) null else (pageIndex - (params.loadSize / NETWORK_PAGE_SIZE)),
                 nextKey = nextKey
             )
