@@ -6,7 +6,7 @@
     <data>
         <variable
             name="details"
-            type="com.fitpeo.task.model.ResFitpeoModel" />
+            type="com.fitpeo.task.model.ResFitPeoModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

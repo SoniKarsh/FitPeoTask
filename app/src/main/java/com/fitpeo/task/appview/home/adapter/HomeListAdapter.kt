@@ -8,13 +8,13 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.fitpeo.task.R
 import com.fitpeo.task.databinding.ItemPhotoFitpeoBinding
-import com.fitpeo.task.model.ResFitpeoModel
+import com.fitpeo.task.model.ResFitPeoModel
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
 class HomeListAdapter(
-    private val clickListener: (View, Int, ResFitpeoModel?) -> Unit
-) : PagingDataAdapter<ResFitpeoModel, HomeListAdapter.HomeListViewHolder>(PhotosDiffCallback()) {
+    private val clickListener: (View, Int, ResFitPeoModel?) -> Unit
+) : PagingDataAdapter<ResFitPeoModel, HomeListAdapter.HomeListViewHolder>(PhotosDiffCallback()) {
 
     private lateinit var bundle: Bundle
 
@@ -45,9 +45,9 @@ class HomeListAdapter(
 
     inner class HomeListViewHolder(
         val binding: ItemPhotoFitpeoBinding,
-        private val clickListener: (View, Int, ResFitpeoModel?) -> Unit
+        private val clickListener: (View, Int, ResFitPeoModel?) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(fitPeoModel: ResFitpeoModel?) {
+        fun bind(fitPeoModel: ResFitPeoModel?) {
             binding.run {
                 cpiProgress.visibility = View.VISIBLE
                 root.setOnClickListener {

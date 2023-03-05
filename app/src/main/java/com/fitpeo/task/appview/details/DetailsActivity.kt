@@ -4,13 +4,13 @@ import android.os.Build
 import android.os.Bundle
 import com.fitpeo.task.base.BaseActivity
 import com.fitpeo.task.databinding.ActivityDetailsBinding
-import com.fitpeo.task.model.ResFitpeoModel
+import com.fitpeo.task.model.ResFitPeoModel
 import com.fitpeo.task.utils.AppConstants
 
 class DetailsActivity: BaseActivity() {
 
     private lateinit var binding: ActivityDetailsBinding
-    private var details: ResFitpeoModel? = null
+    private var details: ResFitPeoModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +36,9 @@ class DetailsActivity: BaseActivity() {
 
     private fun parseArgs(){
         details = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra(AppConstants.DETAILS, ResFitpeoModel::class.java)
+            intent.getParcelableExtra(AppConstants.DETAILS, ResFitPeoModel::class.java)
         } else {
-            intent.getParcelableExtra(AppConstants.DETAILS) as ResFitpeoModel?
+            intent.getParcelableExtra(AppConstants.DETAILS) as ResFitPeoModel?
         }
     }
 

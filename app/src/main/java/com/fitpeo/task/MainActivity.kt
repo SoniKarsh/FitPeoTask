@@ -16,7 +16,7 @@ import com.fitpeo.task.appview.home.loader.PhotoLoadStateAdapter
 import com.fitpeo.task.appview.viewmodel.MainSharedViewModel
 import com.fitpeo.task.base.BaseActivity
 import com.fitpeo.task.databinding.ActivityMainBinding
-import com.fitpeo.task.model.ResFitpeoModel
+import com.fitpeo.task.model.ResFitPeoModel
 import com.fitpeo.task.utils.AppConstants
 import com.fitpeo.task.utils.extensions.toast
 import kotlinx.coroutines.flow.collectLatest
@@ -65,7 +65,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun intentDetails(image: View, pos: Int, details: ResFitpeoModel?) {
+    private fun intentDetails(image: View, pos: Int, details: ResFitPeoModel?) {
         var options: ActivityOptionsCompat?
         startActivity(
             Intent(this, DetailsActivity::class.java).apply {

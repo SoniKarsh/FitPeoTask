@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingSource
 import com.fitpeo.task.api.interfaces.FitPeoPhotosApi
 import com.fitpeo.task.appview.home.pagingfiles.PhotosPagingSource
-import com.fitpeo.task.model.ResFitpeoModel
+import com.fitpeo.task.model.ResFitPeoModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
@@ -30,7 +30,7 @@ class PhotosPagingSourceTest {
 
     companion object {
         val photosResponse = arrayListOf(
-            ResFitpeoModel(
+            ResFitPeoModel(
                 albumId = 1,
                 id = 1,
                 title = "accusamus beatae ad facilis cum similique qui sunt",
@@ -54,7 +54,7 @@ class PhotosPagingSourceTest {
     fun `photos paging source load - failure - http error`() = runTest {
         val error = RuntimeException(ERROR_404, Throwable())
         given(api.getPhotos(any())).willThrow(error)
-        val expectedResult = PagingSource.LoadResult.Error<Int, ResFitpeoModel>(error)
+        val expectedResult = PagingSource.LoadResult.Error<Int, ResFitPeoModel>(error)
         Assert.assertEquals(
             expectedResult, photosPagingSource.load(
                 PagingSource.LoadParams.Refresh(
@@ -70,7 +70,7 @@ class PhotosPagingSourceTest {
     fun `photos paging source load - failure - received null`() = runTest {
         `when`(api.getPhotos(any())).thenReturn(null)
         val expectedResult =
-            PagingSource.LoadResult.Error<Int, ResFitpeoModel>(NullPointerException())
+            PagingSource.LoadResult.Error<Int, ResFitPeoModel>(NullPointerException())
         Assert.assertEquals(
             expectedResult.toString(), photosPagingSource.load(
                 PagingSource.LoadParams.Refresh(

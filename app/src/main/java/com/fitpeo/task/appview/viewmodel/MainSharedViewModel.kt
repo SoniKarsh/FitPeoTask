@@ -1,13 +1,12 @@
 package com.fitpeo.task.appview.viewmodel
 
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.fitpeo.task.appview.home.pagingfiles.data_source.PhotosRemoteDataSource
-import com.fitpeo.task.model.ResFitpeoModel
+import com.fitpeo.task.model.ResFitPeoModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -15,7 +14,7 @@ class MainSharedViewModel(private val photosApi: PhotosRemoteDataSource): ViewMo
 
     private val _isLoading = MutableStateFlow(true)
     private val _errorPublisher = MutableStateFlow<Throwable?>(null)
-    private val _resultPublisher = MutableStateFlow<PagingData<ResFitpeoModel>?>(null)
+    private val _resultPublisher = MutableStateFlow<PagingData<ResFitPeoModel>?>(null)
     val resultPublisher = _resultPublisher.asStateFlow()
     val errorPublisher = _errorPublisher.asStateFlow()
     val isLoading = _isLoading.asStateFlow()
