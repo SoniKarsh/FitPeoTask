@@ -1,7 +1,6 @@
 package com.fitpeo.task.appview.details
 
 import android.os.Bundle
-import android.transition.Transition
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,17 +10,15 @@ import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.fitpeo.task.appview.viewmodel.MainSharedViewModel
 import com.fitpeo.task.databinding.FragmentDetailsBinding
-import com.fitpeo.task.model.ResFitpeoModel
-import com.fitpeo.task.utils.AppLogger
+import com.fitpeo.task.model.ResFitPeoModel
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-
 
 class DetailsFragment: Fragment() {
 
     private lateinit var binding: FragmentDetailsBinding
     private val viewModel: MainSharedViewModel by activityViewModel()
     private val args: DetailsFragmentArgs by navArgs()
-    private var details: ResFitpeoModel? = null
+    private var details: ResFitPeoModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

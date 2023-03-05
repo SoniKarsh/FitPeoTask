@@ -4,12 +4,11 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.fitpeo.task.api.interfaces.FitPeoPhotosApi
 import com.fitpeo.task.appview.home.pagingfiles.data_source.NETWORK_PAGE_SIZE
-import com.fitpeo.task.model.ResFitpeoModel
-import kotlinx.coroutines.flow.map
+import com.fitpeo.task.model.ResFitPeoModel
 import retrofit2.HttpException
 import java.io.IOException
 
-class PhotosPagingSource(private val fitPeoPhotosApi: FitPeoPhotosApi): PagingSource<Int, ResFitpeoModel>() {
+class PhotosPagingSource(private val fitPeoPhotosApi: FitPeoPhotosApi): PagingSource<Int, ResFitPeoModel>() {
 
     override val jumpingSupported: Boolean
         get() = super.jumpingSupported
@@ -19,7 +18,7 @@ class PhotosPagingSource(private val fitPeoPhotosApi: FitPeoPhotosApi): PagingSo
     /**
      * The refresh key is used for subsequent calls to PagingSource.Load after the initial load.
      */
-    override fun getRefreshKey(state: PagingState<Int, ResFitpeoModel>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, ResFitPeoModel>): Int? {
         // We need to get the previous key (or next key if previous is null) of the page
         // that was closest to the most recently accessed index.
         // Anchor position is the most recently accessed index.
@@ -29,16 +28,14 @@ class PhotosPagingSource(private val fitPeoPhotosApi: FitPeoPhotosApi): PagingSo
         }
     }
 
-
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ResFitpeoModel> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ResFitPeoModel> {
         val pageIndex = params.key ?: STARTING_PAGE_INDEX
         return try {
             val response = fitPeoPhotosApi.getPhotos(
                 pageIndex
             )
-            val photos = response
             val nextKey =
-                if (photos.isEmpty()) {
+                if (response.isEmpty()) {
                     null
                 } else {
                     // By default, initial load size = 3 * NETWORK PAGE SIZE
@@ -46,7 +43,7 @@ class PhotosPagingSource(private val fitPeoPhotosApi: FitPeoPhotosApi): PagingSo
                     pageIndex + (params.loadSize / NETWORK_PAGE_SIZE)
                 }
             LoadResult.Page(
-                data = photos,
+                data = response,
                 prevKey = if (pageIndex == STARTING_PAGE_INDEX) null else (pageIndex - (params.loadSize / NETWORK_PAGE_SIZE)),
                 nextKey = nextKey
             )

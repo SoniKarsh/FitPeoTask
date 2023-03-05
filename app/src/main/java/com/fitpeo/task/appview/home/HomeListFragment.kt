@@ -8,26 +8,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.fitpeo.task.R
 import com.fitpeo.task.appview.home.adapter.HomeListAdapter
 import com.fitpeo.task.appview.home.loader.PhotoLoadStateAdapter
 import com.fitpeo.task.appview.viewmodel.MainSharedViewModel
 import com.fitpeo.task.databinding.FragmentHomeListBinding
-import com.fitpeo.task.utils.AppLogger
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeListFragment : Fragment() {
 

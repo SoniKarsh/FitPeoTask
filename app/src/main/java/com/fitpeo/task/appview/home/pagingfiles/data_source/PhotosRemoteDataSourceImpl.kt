@@ -5,13 +5,13 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.fitpeo.task.api.interfaces.FitPeoPhotosApi
 import com.fitpeo.task.appview.home.pagingfiles.PhotosPagingSource
-import com.fitpeo.task.model.ResFitpeoModel
+import com.fitpeo.task.model.ResFitPeoModel
 import kotlinx.coroutines.flow.Flow
 
 const val NETWORK_PAGE_SIZE = 50
 
 class PhotosRemoteDataSourceImpl(private val photosApi: FitPeoPhotosApi): PhotosRemoteDataSource {
-    override fun getPhotos(): Flow<PagingData<ResFitpeoModel>> {
+    override fun getPhotos(): Flow<PagingData<ResFitPeoModel>> {
         return Pager(
             config = PagingConfig(
                 pageSize = NETWORK_PAGE_SIZE,

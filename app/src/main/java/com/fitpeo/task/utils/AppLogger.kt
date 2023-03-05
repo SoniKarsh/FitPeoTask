@@ -19,7 +19,4 @@ object AppLogger {
         }
     }
 
-    fun log(throwable: Throwable? = Throwable(""), print: String? = "") {
-        log(print, throwable)
-    }
 }
