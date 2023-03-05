@@ -21,10 +21,27 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_250dp"
             android:scaleType="centerCrop"
-            app:srcImage="@{details.url}"
+            android:background="@android:color/transparent"
+            app:srcImage="@{details}"
+            app:progressBar="@{cpiProgress}"
             android:elevation="@dimen/_9dp"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CardView" />
+
+        <ProgressBar
+            android:id="@+id/cpiProgress"
+            android:translationZ="@dimen/_120dp"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:progressTint="@color/dark"
+            android:visibility="visible"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/dark"
+            app:layout_constraintTop_toTopOf="@+id/header"
+            app:layout_constraintBottom_toBottomOf="@+id/header"
+            app:layout_constraintStart_toStartOf="@+id/header"
+            app:layout_constraintEnd_toEndOf="@+id/header" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/index"
@@ -43,7 +60,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_24dp"
             android:layout_marginBottom="@dimen/_36dp"
@@ -54,6 +71,7 @@
             android:textColor="@color/dark"
             android:textSize="@dimen/_36sp"
             android:textStyle="bold"
+            android:layout_marginHorizontal="@dimen/_10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header"

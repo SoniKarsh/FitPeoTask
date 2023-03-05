@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.fitpeo.task.appview.home.pagingfiles.data_source.PhotosRemoteDataSource
 import com.fitpeo.task.model.ResFitpeoModel
 import kotlinx.coroutines.flow.*
@@ -14,18 +15,25 @@ class MainSharedViewModel(private val photosApi: PhotosRemoteDataSource): ViewMo
 
     private val _isLoading = MutableStateFlow(true)
     private val _errorPublisher = MutableStateFlow<Throwable?>(null)
+    private val _resultPublisher = MutableStateFlow<PagingData<ResFitpeoModel>?>(null)
+    val resultPublisher = _resultPublisher.asStateFlow()
     val errorPublisher = _errorPublisher.asStateFlow()
     val isLoading = _isLoading.asStateFlow()
+
+    init {
+        getPhotos()
+    }
 
     /*
     * Expose this method to your fragment or activity.
     **/
-    fun getPhotos(): Flow<PagingData<ResFitpeoModel>> {
-        return photosApi.getPhotos()
-//            .map { pagingData ->
-//                pagingData
-//            }
-//            .cachedIn(viewModelScope)
+    private fun getPhotos() {
+        viewModelScope.launch {
+            photosApi.getPhotos().cachedIn(viewModelScope)
+                .map {
+                    _resultPublisher.emit(it)
+                }.collect()
+        }
     }
 
     fun updateLoadingState(refresh: LoadState) {
