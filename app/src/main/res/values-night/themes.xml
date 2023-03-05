@@ -13,5 +13,6 @@
         <item name="android:statusBarColor">@color/toolbar_bg</item>
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 </resources>
