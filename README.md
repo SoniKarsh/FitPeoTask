@@ -36,10 +36,10 @@ Implemented a splash screen where we have fetched the first item in the splash s
 - Navigation graph
 
 ## Implementations <a name = "implementations"></a>
-Used two different approached one with fragments and other with the activities.
-main -> It contains fragment approach where i have used one activity to host two fragments
+Used two different approaches: With the fragments and With the activities.
+- main -> It contains fragment approach where i have used one activity to host two fragments
 HomeList and Details fragment.
 
-feature/with_activity -> It contains activity based approach where i have used two different activities one for the list and one for the details.
+- feature/with_activity -> It contains activity based approach where i have used two different activities one for the list and one for the details.
 MainActivity & DetailsActivity.
 
